@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Layfort Regular font - will be added when font file is available */
+@font-face {
+  font-family: 'Layfort';
+  src: url('/fonts/layfort-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Hero Section Typography */
+.hero-title {
+  font-family: 'Layfort', serif;
+  font-size: 62px;
+  font-weight: 400;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.hero-description {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #FFFFFF;
+  line-height: 1.6;
+}
+
+/* Section Heading & Caption (e.g., Find Tiles by Category) */
+.section-heading {
+  font-family: 'Layfort', serif;
+  font-size: 48px;
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+.section-caption {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #757575;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 36px;
+  }
+  
+  .hero-description {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-title {
+    font-size: 48px;
+  }
+  
+  .hero-description {
+    font-size: 15px;
+  }
+}
