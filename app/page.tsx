@@ -3,6 +3,7 @@ import CollectionsSection from "@/components/CollectionsSection";
 import TrendingCollectionsSection from "@/components/TrendingCollectionsSection";
 import NewArrivalsSection from "@/components/NewArrivalsSection";
 import SocialMediaSection from "@/components/SocialMediaSection";
+import RealSpacesSection from "@/components/RealSpacesSection";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <TrendingCollectionsSection />
       <NewArrivalsSection />
       <SocialMediaSection />
+      <RealSpacesSection />
     </main>
   );
 }

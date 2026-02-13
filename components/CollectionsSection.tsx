@@ -97,26 +97,30 @@ const CollectionsSection = () => {
           ))}
         </div>
 
-        {/* View All Button */}
+        {/* Discover More Button */}
         <div className="text-center mt-12">
           <Link
             href="/products"
-            className="inline-flex items-center space-x-2 bg-gray-900 text-white px-8 py-4 rounded-md hover:bg-gray-800 transition-colors font-semibold text-lg"
+            className="inline-flex items-center space-x-3 hover:opacity-80 transition-opacity"
           >
-            <span>View All Products</span>
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <span className="text-[#17458A] font-semibold text-base md:text-lg tracking-wide uppercase">
+              Discover More
+            </span>
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#17458A] text-white shadow-sm">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </div>
           </Link>
         </div>
       </div>

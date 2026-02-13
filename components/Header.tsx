@@ -129,12 +129,20 @@ const Header = () => {
               )}
             </div>
 
-            {/* Contact Us */}
+            {/* Granite */}
             <Link
-              href="/contact"
+              href="/granite"
               className={`${navLinkClasses} hover:opacity-80`}
             >
-              Contact Us
+              Granite
+            </Link>
+
+            {/* Adhesives */}
+            <Link
+              href="/adhesives"
+              className={`${navLinkClasses} hover:opacity-80`}
+            >
+              Adhesives
             </Link>
           </div>
 
@@ -188,15 +196,15 @@ const Header = () => {
               <span>LOCATE US</span>
             </a>
 
-            {/* WhatsApp Button */}
+            {/* WhatsApp (link-style with icon) */}
             <a
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-2 bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md transition-colors"
+              className="flex items-center space-x-2 text-sm md:text-base hover:opacity-80 transition-opacity"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >

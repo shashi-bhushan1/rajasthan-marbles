@@ -365,7 +365,7 @@ const SocialMediaSection = () => {
             )}
 
             {/* Center Video Container */}
-            <div className="relative w-full max-w-[460px] max-h-[85vh] flex-shrink-0">
+            <div className="relative max-w-[460px] flex-shrink-0">
               <div className="relative aspect-[9/16] bg-black rounded-lg overflow-hidden max-h-[85vh] shadow-2xl">
                 {/* Video Element */}
                 <video
