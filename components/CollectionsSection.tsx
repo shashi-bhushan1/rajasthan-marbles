@@ -2,24 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-
-interface Collection {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  link: string;
-}
+import { getCategoryPageUrl } from "@/data/categories";
 
 const CollectionsSection = () => {
-  const collections: Collection[] = [
+  const collections = [
     {
       id: 1,
       title: "Bathroom",
       description:
         "Create spa-like retreats with tiles designed for moisture resistance, easy maintenance, and timeless style.",
       image: "/images/home-bathroom.webp",
-      link: "/products?category=bathroom",
+      slug: "bathroom-tiles",
     },
     {
       id: 2,
@@ -27,7 +20,7 @@ const CollectionsSection = () => {
       description:
         "Elevate your kitchen with durable, stain-resistant tiles that balance everyday practicality with premium design.",
       image: "/images/home-kitchen.webp",
-      link: "/products?category=kitchen",
+      slug: "kitchen-tiles",
     },
     {
       id: 3,
@@ -35,7 +28,7 @@ const CollectionsSection = () => {
       description:
         "Set the tone of your living spaces with elegant floor and wall tiles that bring warmth and character.",
       image: "/images/home-livingroom.webp",
-      link: "/products?category=living-room",
+      slug: "living-room-tiles",
     },
     {
       id: 4,
@@ -43,7 +36,7 @@ const CollectionsSection = () => {
       description:
         "Design high-traffic commercial areas with tiles engineered for performance, safety, and lasting impressions.",
       image: "/images/home-commercial_space.webp",
-      link: "/products?category=commercial",
+      slug: "commercial-spaces",
     },
   ];
 
@@ -62,11 +55,11 @@ const CollectionsSection = () => {
         </div>
 
         {/* Collections Grid - 2 x 2 layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 max-w-5xl mx-auto">
           {collections.map((collection) => (
             <Link
               key={collection.id}
-              href={collection.link}
+              href={getCategoryPageUrl(collection.slug)}
               className="group relative overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-gray-100"
             >
               {/* Image Container */}

@@ -9,10 +9,10 @@ const Footer = () => {
   const locateUsUrl = "#";
 
   const productCategories = [
-    { name: "Bathroom", link: "/products?category=bathroom" },
-    { name: "Kitchen", link: "/products?category=kitchen" },
-    { name: "Living Room", link: "/products?category=living-room" },
-    { name: "Commercial Spaces", link: "/products?category=commercial" },
+    { name: "Bathroom", link: "/bathroom-tiles" },
+    { name: "Kitchen", link: "/kitchen-tiles" },
+    { name: "Living Room", link: "/living-room-tiles" },
+    { name: "Commercial Spaces", link: "/commercial-spaces" },
     { name: "Granite", link: "/granite" },
     { name: "Adhesive", link: "/adhesives" },
   ];
@@ -124,7 +124,7 @@ const Footer = () => {
                   href={locateUsUrl}
                   className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors text-sm md:text-base font-medium"
                 >
-                  View Location
+                  View location on map
                   <svg
                     className="w-4 h-4 ml-1"
                     fill="none"
@@ -153,7 +153,7 @@ const Footer = () => {
                 <li key={category.name}>
                   <Link
                     href={category.link}
-                    className="text-gray-300 hover:text-white transition-colors text-sm md:text-base"
+                    className="text-gray-300 hover:text-blue-400 transition-colors text-sm md:text-base"
                   >
                     {category.name}
                   </Link>
@@ -185,7 +185,7 @@ const Footer = () => {
                 </svg>
                 <a
                   href={`tel:${contactNumber.replace(/\s/g, "")}`}
-                  className="text-gray-300 hover:text-white transition-colors text-sm md:text-base"
+                  className="text-gray-300 hover:text-blue-400 transition-colors text-sm md:text-base"
                 >
                   {contactNumber}
                 </a>
@@ -208,7 +208,7 @@ const Footer = () => {
                 </svg>
                 <a
                   href={`tel:${contactNumber2.replace(/\s/g, "")}`}
-                  className="text-gray-300 hover:text-white transition-colors text-sm md:text-base"
+                  className="text-gray-300 hover:text-blue-400 transition-colors text-sm md:text-base"
                 >
                   {contactNumber2}
                 </a>
@@ -227,7 +227,7 @@ const Footer = () => {
                   href={`https://wa.me/${whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-white transition-colors text-sm md:text-base"
+                  className="text-gray-300 hover:text-blue-400 transition-colors text-sm md:text-base"
                 >
                   WhatsApp
                 </a>

@@ -1,12 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import { CATEGORIES, getCategoryPageUrl } from "@/data/categories";
 
 const Header = () => {
+  const pathname = usePathname();
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const isInnerPage = pathname !== "/" && pathname !== null;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -25,8 +30,9 @@ const Header = () => {
     };
   }, []);
 
-  // Change header background and text color on scroll
+  // Change header background and text color on scroll (homepage only)
   useEffect(() => {
+    if (isInnerPage) return;
     const handleScroll = () => {
       if (window.scrollY > 80) {
         setIsScrolled(true);
@@ -38,7 +44,7 @@ const Header = () => {
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isInnerPage]);
 
   const contactNumber = "+91 1234567890";
   const whatsappNumber = "911234567890"; // Without + and spaces
@@ -46,9 +52,11 @@ const Header = () => {
   const locateUsUrl = "#";
 
   const headerClasses = `fixed top-0 left-0 right-0 w-full z-50 transition-colors duration-300 ${
-    isScrolled
+    isInnerPage
       ? "bg-white text-gray-900 shadow-md border-b border-gray-200"
-      : "bg-black/20 backdrop-blur-md text-white"
+      : isScrolled
+        ? "bg-white text-gray-900 shadow-md border-b border-gray-200"
+        : "bg-black/20 backdrop-blur-md text-white"
   }`;
 
   const navLinkClasses =
@@ -96,31 +104,20 @@ const Header = () => {
 
               {/* Dropdown Menu */}
               {isProductsOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-xl py-2 z-50">
-                  <Link
-                    href="/products/marble-types"
-                    className="block px-4 py-2 text-gray-800 hover:bg-blue-50 transition-colors"
-                    onClick={() => setIsProductsOpen(false)}
-                  >
-                    Marble Types
-                  </Link>
-                  <Link
-                    href="/products/collections"
-                    className="block px-4 py-2 text-gray-800 hover:bg-blue-50 transition-colors"
-                    onClick={() => setIsProductsOpen(false)}
-                  >
-                    Collections
-                  </Link>
-                  <Link
-                    href="/products/custom-orders"
-                    className="block px-4 py-2 text-gray-800 hover:bg-blue-50 transition-colors"
-                    onClick={() => setIsProductsOpen(false)}
-                  >
-                    Custom Orders
-                  </Link>
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-xl py-2 z-50">
+                  {CATEGORIES.map((category) => (
+                    <Link
+                      key={category.slug}
+                      href={getCategoryPageUrl(category.slug)}
+                      className="block px-4 py-2 hover:bg-blue-50 transition-colors"
+                      onClick={() => setIsProductsOpen(false)}
+                    >
+                      {category.title}
+                    </Link>
+                  ))}
                   <Link
                     href="/products"
-                    className="block px-4 py-2 text-gray-800 hover:bg-blue-50 transition-colors border-t border-gray-200 mt-1"
+                    className="block px-4 py-2 hover:bg-blue-50 transition-colors border-t border-gray-200 mt-1"
                     onClick={() => setIsProductsOpen(false)}
                   >
                     View All Products
@@ -151,7 +148,7 @@ const Header = () => {
             {/* Contact Number */}
             <a
               href={`tel:${contactNumber.replace(/\s/g, "")}`}
-              className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+              className="flex items-center space-x-2 hover:text-blue-700 transition-colors"
             >
               <svg
                 className="w-5 h-5"
@@ -172,7 +169,7 @@ const Header = () => {
             {/* Locate Us (link-style with icon) */}
             <a
               href={locateUsUrl}
-              className="flex items-center space-x-2 text-sm md:text-base hover:opacity-80 transition-opacity"
+              className="flex items-center space-x-2 text-sm md:text-base hover:text-blue-700 transition-colors"
             >
               <svg
                 className="w-4 h-4"
@@ -201,7 +198,7 @@ const Header = () => {
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-2 text-sm md:text-base hover:opacity-80 transition-opacity"
+              className="flex items-center space-x-2 text-sm md:text-base hover:text-blue-700 transition-colors"
             >
               <svg
                 className="w-4 h-4"

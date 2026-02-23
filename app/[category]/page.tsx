@@ -1,50 +1,56 @@
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getProductsByCategories } from "@/data/products";
-import { getCategoryBySlug } from "@/data/categories";
+import {
+  getCategoryBySlug,
+  getCategorySlugs,
+} from "@/data/categories";
+import { getProductsByCategory } from "@/data/products";
 import ProductFilters from "@/components/ProductFilters";
 import ProductCard from "@/components/ProductCard";
 import Pagination, { PER_PAGE } from "@/components/Pagination";
 
-function parseCategoryIds(
-  searchParams: Record<string, string | string[] | undefined>
-): string[] {
-  const raw = searchParams["category_ids[]"] ?? searchParams.category_ids ?? searchParams.category;
-  if (!raw) return [];
-  return Array.isArray(raw) ? raw : [raw];
+interface CategoryPageProps {
+  params: Promise<{ category: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-function parsePage(
-  searchParams: Record<string, string | string[] | undefined>
-): number {
-  const p = searchParams.page;
-  if (!p) return 1;
-  const n = typeof p === "string" ? parseInt(p, 10) : parseInt(String(p[0]), 10);
-  return Number.isFinite(n) && n >= 1 ? n : 1;
+export async function generateStaticParams() {
+  return getCategorySlugs().map((slug) => ({ category: slug }));
 }
 
-export default async function ProductsPage({
+export default async function CategoryPage({
+  params,
   searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const params = await searchParams;
-  const categoryIds = parseCategoryIds(params);
-  const allProducts = getProductsByCategories(categoryIds);
-  const page = parsePage(params);
+}: CategoryPageProps) {
+  const { category: slug } = await params;
+  const category = getCategoryBySlug(slug);
+
+  if (!category) {
+    notFound();
+  }
+
+  const filters = await searchParams;
+  const allProducts = getProductsByCategory(slug);
+  const pageParam = filters.page;
+  const pageNum = !pageParam ? 1 : (() => {
+    const p = typeof pageParam === "string" ? pageParam : pageParam[0];
+    const n = parseInt(String(p), 10);
+    return Number.isFinite(n) && n >= 1 ? n : 1;
+  })();
   const totalPages = Math.max(1, Math.ceil(allProducts.length / PER_PAGE));
-  const currentPage = Math.min(page, totalPages);
+  const currentPage = Math.min(pageNum, totalPages);
   const start = (currentPage - 1) * PER_PAGE;
   const products = allProducts.slice(start, start + PER_PAGE);
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Section - Products banner (same style as category pages) */}
+      {/* Hero Section */}
       <section className="relative h-[320px] md:h-[400px] overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/home-bathroom.webp"
-            alt="Products"
+            src={category.heroImage}
+            alt={category.title}
             fill
             className="object-cover"
             priority
@@ -53,15 +59,18 @@ export default async function ProductsPage({
         </div>
         <div className="relative h-full container mx-auto px-4 flex flex-col justify-end pb-8 md:pb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-            Products
+            {category.title}
           </h1>
+          <p className="text-white/90 max-w-2xl text-sm md:text-base">
+            {category.description}
+          </p>
           {/* Breadcrumbs */}
-          <nav className="text-sm text-white/80">
+          <nav className="mt-4 text-sm text-white/80">
             <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
             <span className="mx-2">/</span>
-            <span>Products</span>
+            <span>{category.title}</span>
           </nav>
         </div>
       </section>
@@ -72,10 +81,12 @@ export default async function ProductsPage({
           {/* Left Sidebar - Filters */}
           <aside className="lg:w-64 flex-shrink-0">
             <ProductFilters
-              mode="products"
-              selectedCategorySlugs={categoryIds}
+              mode="category"
+              categorySlug={slug}
+              categoryTitle={category.title}
+              selectedCategorySlugs={[slug]}
               productCount={allProducts.length}
-              currentFilters={params}
+              currentFilters={filters}
             />
           </aside>
 
@@ -86,25 +97,13 @@ export default async function ProductsPage({
                 Filter By <span className="font-semibold text-gray-900">{allProducts.length} tiles</span> available
               </p>
               <div className="flex flex-wrap gap-2">
-              {categoryIds.map((slug) => {
-                const cat = getCategoryBySlug(slug);
-                if (!cat) return null;
-                const remaining = categoryIds.filter((s) => s !== slug);
-                const href =
-                  remaining.length > 0
-                    ? `/products?${remaining.map((s) => `category_ids[]=${encodeURIComponent(s)}`).join("&")}`
-                    : "/products";
-                return (
-                  <Link
-                    key={slug}
-                    href={href}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-200 text-gray-800 text-sm hover:bg-gray-300 transition-colors border border-gray-300"
-                    title="Remove filter"
-                  >
-                    {cat.title} ×
-                  </Link>
-                );
-              })}
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-200 text-gray-800 text-sm hover:bg-gray-300 transition-colors border border-gray-300"
+                title="Remove filter"
+              >
+                {category.title} ×
+              </Link>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -114,15 +113,15 @@ export default async function ProductsPage({
             </div>
             {products.length === 0 && (
               <p className="text-center text-gray-500 py-12">
-                No products found.
+                No products found for this category.
               </p>
             )}
             {allProducts.length > PER_PAGE && (
               <Pagination
                 totalItems={allProducts.length}
                 currentPage={currentPage}
-                baseUrl="/products"
-                searchParams={params}
+                baseUrl={`/${slug}`}
+                searchParams={filters}
               />
             )}
           </div>
