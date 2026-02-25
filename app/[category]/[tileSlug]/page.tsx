@@ -2,43 +2,43 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCategoryBySlug } from "@/data/categories";
 import {
-  getProductsByCategory,
-  getSimilarProducts,
-} from "@/data/products";
-import ProductImageWithModal from "@/components/ProductImageWithModal";
+  getTilesByCategory,
+  getSimilarTiles,
+} from "@/data/tiles";
+import ImageWithModal from "@/components/ImageWithModal";
 import ExploreSimilarTiles from "@/components/ExploreSimilarTiles";
 import ShareButton from "@/components/ShareButton";
 
-interface ProductDetailPageProps {
-  params: Promise<{ category: string; productSlug: string }>;
+interface TileDetailPageProps {
+  params: Promise<{ category: string; tileSlug: string }>;
 }
 
-export default async function ProductDetailPage({
+export default async function TileDetailPage({
   params,
-}: ProductDetailPageProps) {
-  const { category: categorySlug, productSlug } = await params;
+}: TileDetailPageProps) {
+  const { category: categorySlug, tileSlug } = await params;
   const category = getCategoryBySlug(categorySlug);
 
   if (!category) {
     notFound();
   }
 
-  const products = getProductsByCategory(categorySlug);
-  const product = products.find(
-    (p) => p.name.toLowerCase().replace(/\s+/g, "-") === productSlug
+  const tiles = getTilesByCategory(categorySlug);
+  const tile = tiles.find(
+    (t) => t.name.toLowerCase().replace(/\s+/g, "-") === tileSlug
   );
 
-  if (!product) {
+  if (!tile) {
     notFound();
   }
 
-  const similarProducts = getSimilarProducts(product);
+  const similarTiles = getSimilarTiles(tile);
 
-  const sizes = product.filters?.size?.length
-    ? product.filters.size.join(", ")
-    : product.size;
-  const finishes = product.filters?.finish?.join(", ") || "—";
-  const colors = product.filters?.color?.join(", ") || "—";
+  const sizes = tile.filters?.size?.length
+    ? tile.filters.size.join(", ")
+    : tile.size;
+  const finishes = tile.filters?.finish?.join(", ") || "—";
+  const colors = tile.filters?.color?.join(", ") || "—";
 
   return (
     <main className="min-h-screen bg-white pt-24 pb-12 px-6 md:px-8 lg:px-10">
@@ -47,9 +47,9 @@ export default async function ProductDetailPage({
         {/* Left: image ~50%, minimal left margin; constrained height so Explore Similar in same view */}
         <div className="md:pl-4 lg:pl-6 pr-4 md:pr-0 flex flex-col">
           <div className="relative w-full max-md:aspect-square md:h-[55vh] md:max-h-[520px]">
-            <ProductImageWithModal
-              images={[product.image]}
-              productName={product.name}
+            <ImageWithModal
+              images={[tile.image]}
+              itemName={tile.name}
               className="max-md:!block md:!aspect-auto md:!h-full md:!w-full md:!rounded-none"
             />
           </div>
@@ -63,13 +63,13 @@ export default async function ProductDetailPage({
               <span className="mx-2">/</span>
               <Link href={`/${categorySlug}`} className="hover:text-gray-700">{category.title}</Link>
               <span className="mx-2">/</span>
-              <span className="text-gray-900">{product.name}</span>
+              <span className="text-gray-900">{tile.name}</span>
             </nav>
-            <ShareButton title={product.name} className="shrink-0" />
+            <ShareButton title={tile.name} className="shrink-0" />
           </div>
 
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 uppercase tracking-wide">
-            {product.name}
+            {tile.name}
           </h1>
 
           {/* Type line: two segments with vertical separator (Kajaria-style) */}
@@ -78,7 +78,7 @@ export default async function ProductDetailPage({
               <svg className="w-4 h-4 text-[#17458A]" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
               </svg>
-              {product.type}
+              {tile.type}
             </span>
             <span className="text-gray-300" aria-hidden>|</span>
             <span className="inline-flex items-center gap-1.5">
@@ -124,7 +124,7 @@ export default async function ProductDetailPage({
       </section>
 
       {/* Explore Similar Tiles - in same view, horizontal carousel with arrows */}
-      <ExploreSimilarTiles products={similarProducts} />
+      <ExploreSimilarTiles tiles={similarTiles} />
     </main>
   );
 }

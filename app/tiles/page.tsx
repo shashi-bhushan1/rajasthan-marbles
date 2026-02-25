@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getProductsByCategories } from "@/data/products";
+import { getTilesByCategories } from "@/data/tiles";
 import { getCategoryBySlug } from "@/data/categories";
-import ProductFilters from "@/components/ProductFilters";
-import ProductCard from "@/components/ProductCard";
+import TileFilters from "@/components/TileFilters";
+import TileCard from "@/components/TileCard";
 import Pagination, { PER_PAGE } from "@/components/Pagination";
 
 function parseCategoryIds(
@@ -23,28 +23,28 @@ function parsePage(
   return Number.isFinite(n) && n >= 1 ? n : 1;
 }
 
-export default async function ProductsPage({
+export default async function TilesPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
   const categoryIds = parseCategoryIds(params);
-  const allProducts = getProductsByCategories(categoryIds);
+  const allTiles = getTilesByCategories(categoryIds);
   const page = parsePage(params);
-  const totalPages = Math.max(1, Math.ceil(allProducts.length / PER_PAGE));
+  const totalPages = Math.max(1, Math.ceil(allTiles.length / PER_PAGE));
   const currentPage = Math.min(page, totalPages);
   const start = (currentPage - 1) * PER_PAGE;
-  const products = allProducts.slice(start, start + PER_PAGE);
+  const tiles = allTiles.slice(start, start + PER_PAGE);
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Section - Products banner (same style as category pages) */}
+      {/* Hero Section - Tiles banner (same style as category pages) */}
       <section className="relative h-[320px] md:h-[400px] overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/home-bathroom.webp"
-            alt="Products"
+            alt="Tiles"
             fill
             className="object-cover"
             priority
@@ -53,7 +53,7 @@ export default async function ProductsPage({
         </div>
         <div className="relative h-full container mx-auto px-4 flex flex-col justify-end pb-8 md:pb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-            Products
+            Tiles
           </h1>
           {/* Breadcrumbs */}
           <nav className="text-sm text-white/80">
@@ -61,29 +61,29 @@ export default async function ProductsPage({
               Home
             </Link>
             <span className="mx-2">/</span>
-            <span>Products</span>
+            <span>Tiles</span>
           </nav>
         </div>
       </section>
 
-      {/* Main Content: Filters + Product Grid */}
+      {/* Main Content: Filters + Tile Grid */}
       <section className="container mx-auto px-4 py-8 md:py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Sidebar - Filters */}
           <aside className="lg:w-64 flex-shrink-0">
-            <ProductFilters
-              mode="products"
+            <TileFilters
+              mode="tiles"
               selectedCategorySlugs={categoryIds}
-              productCount={allProducts.length}
+              tileCount={allTiles.length}
               currentFilters={params}
             />
           </aside>
 
-          {/* Product Grid */}
+          {/* Tile Grid */}
           <div className="flex-1">
             <div className="mb-6 flex flex-col gap-2">
               <p className="text-gray-600 text-sm">
-                Filter By <span className="font-semibold text-gray-900">{allProducts.length} tiles</span> available
+                Filter By <span className="font-semibold text-gray-900">{allTiles.length} tiles</span> available
               </p>
               <div className="flex flex-wrap gap-2">
               {categoryIds.map((slug) => {
@@ -92,8 +92,8 @@ export default async function ProductsPage({
                 const remaining = categoryIds.filter((s) => s !== slug);
                 const href =
                   remaining.length > 0
-                    ? `/products?${remaining.map((s) => `category_ids[]=${encodeURIComponent(s)}`).join("&")}`
-                    : "/products";
+                    ? `/tiles?${remaining.map((s) => `category_ids[]=${encodeURIComponent(s)}`).join("&")}`
+                    : "/tiles";
                 return (
                   <Link
                     key={slug}
@@ -108,20 +108,20 @@ export default async function ProductsPage({
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {tiles.map((tile) => (
+                <TileCard key={tile.id} tile={tile} />
               ))}
             </div>
-            {products.length === 0 && (
+            {tiles.length === 0 && (
               <p className="text-center text-gray-500 py-12">
-                No products found.
+                No tiles found.
               </p>
             )}
-            {allProducts.length > PER_PAGE && (
+            {allTiles.length > PER_PAGE && (
               <Pagination
-                totalItems={allProducts.length}
+                totalItems={allTiles.length}
                 currentPage={currentPage}
-                baseUrl="/products"
+                baseUrl="/tiles"
                 searchParams={params}
               />
             )}

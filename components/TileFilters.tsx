@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation";
 import { CATEGORIES } from "@/data/categories";
 
-type ProductFiltersProps =
+type TileFiltersProps =
   | {
-      mode: "products";
+      mode: "tiles";
       selectedCategorySlugs: string[];
-      productCount: number;
+      tileCount: number;
       currentFilters: Record<string, string | string[] | undefined>;
     }
   | {
@@ -15,7 +15,7 @@ type ProductFiltersProps =
       categorySlug: string;
       categoryTitle: string;
       selectedCategorySlugs: string[];
-      productCount: number;
+      tileCount: number;
       currentFilters: Record<string, string | string[] | undefined>;
     };
 
@@ -52,28 +52,28 @@ const FILTER_GROUPS = [
   },
 ];
 
-function buildProductsUrl(categorySlugs: string[]): string {
-  if (categorySlugs.length === 0) return "/products";
-  return `/products?${categorySlugs.map((s) => `category_ids[]=${encodeURIComponent(s)}`).join("&")}`;
+function buildTilesUrl(categorySlugs: string[]): string {
+  if (categorySlugs.length === 0) return "/tiles";
+  return `/tiles?${categorySlugs.map((s) => `category_ids[]=${encodeURIComponent(s)}`).join("&")}`;
 }
 
-export default function ProductFilters(props: ProductFiltersProps) {
+export default function TileFilters(props: TileFiltersProps) {
   const router = useRouter();
   const selectedSlugs = props.selectedCategorySlugs;
   const totalActiveFilters = selectedSlugs.length;
 
   const handleApplicationToggle = (slug: string, checked: boolean) => {
-    if (props.mode === "products") {
+    if (props.mode === "tiles") {
       const next = checked
         ? [...selectedSlugs, slug]
         : selectedSlugs.filter((s) => s !== slug);
-      router.push(buildProductsUrl(next));
+      router.push(buildTilesUrl(next));
     } else {
-      // Category page: add this slug (navigate to /products with multi-select)
+      // Category page: add this slug (navigate to /tiles with multi-select)
       const next = checked
         ? [...selectedSlugs, slug]
         : selectedSlugs.filter((s) => s !== slug);
-      router.push(buildProductsUrl(next));
+      router.push(buildTilesUrl(next));
     }
   };
 

@@ -2,21 +2,22 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-interface ProductImageModalProps {
+interface ImageModalProps {
   images: string[];
-  productName: string;
+  /** Display name for alt text (e.g. tile name, granite name) */
+  itemName: string;
   initialIndex: number;
   isOpen: boolean;
   onClose: (currentIndex: number) => void;
 }
 
-export default function ProductImageModal({
+export default function ImageModal({
   images,
-  productName,
+  itemName,
   initialIndex,
   isOpen,
   onClose,
-}: ProductImageModalProps) {
+}: ImageModalProps) {
   const [index, setIndex] = useState(initialIndex);
   const hasMultiple = images.length > 1;
 
@@ -57,7 +58,7 @@ export default function ProductImageModal({
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
-      aria-label="Product image gallery"
+      aria-label="Image gallery"
     >
       {/* Prev arrow */}
       {hasMultiple && (
@@ -98,7 +99,7 @@ export default function ProductImageModal({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={images[index]}
-              alt={`${productName} - ${index + 1}`}
+              alt={`${itemName} - ${index + 1}`}
               className="max-h-[85vh] w-auto max-w-full block"
             />
             {/* Half inside image, half outside (straddles top-right edge) */}

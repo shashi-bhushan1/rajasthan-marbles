@@ -5,9 +5,9 @@ import {
   getCategoryBySlug,
   getCategorySlugs,
 } from "@/data/categories";
-import { getProductsByCategory } from "@/data/products";
-import ProductFilters from "@/components/ProductFilters";
-import ProductCard from "@/components/ProductCard";
+import { getTilesByCategory } from "@/data/tiles";
+import TileFilters from "@/components/TileFilters";
+import TileCard from "@/components/TileCard";
 import Pagination, { PER_PAGE } from "@/components/Pagination";
 
 interface CategoryPageProps {
@@ -31,17 +31,17 @@ export default async function CategoryPage({
   }
 
   const filters = await searchParams;
-  const allProducts = getProductsByCategory(slug);
+  const allTiles = getTilesByCategory(slug);
   const pageParam = filters.page;
   const pageNum = !pageParam ? 1 : (() => {
     const p = typeof pageParam === "string" ? pageParam : pageParam[0];
     const n = parseInt(String(p), 10);
     return Number.isFinite(n) && n >= 1 ? n : 1;
   })();
-  const totalPages = Math.max(1, Math.ceil(allProducts.length / PER_PAGE));
+  const totalPages = Math.max(1, Math.ceil(allTiles.length / PER_PAGE));
   const currentPage = Math.min(pageNum, totalPages);
   const start = (currentPage - 1) * PER_PAGE;
-  const products = allProducts.slice(start, start + PER_PAGE);
+  const tiles = allTiles.slice(start, start + PER_PAGE);
 
   return (
     <main className="min-h-screen bg-white">
@@ -75,30 +75,30 @@ export default async function CategoryPage({
         </div>
       </section>
 
-      {/* Main Content: Filters + Product Grid */}
+      {/* Main Content: Filters + Tile Grid */}
       <section className="container mx-auto px-4 py-8 md:py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Sidebar - Filters */}
           <aside className="lg:w-64 flex-shrink-0">
-            <ProductFilters
+            <TileFilters
               mode="category"
               categorySlug={slug}
               categoryTitle={category.title}
               selectedCategorySlugs={[slug]}
-              productCount={allProducts.length}
+              tileCount={allTiles.length}
               currentFilters={filters}
             />
           </aside>
 
-          {/* Product Grid */}
+          {/* Tile Grid */}
           <div className="flex-1">
             <div className="mb-6 flex flex-col gap-2">
               <p className="text-gray-600 text-sm">
-                Filter By <span className="font-semibold text-gray-900">{allProducts.length} tiles</span> available
+                Filter By <span className="font-semibold text-gray-900">{allTiles.length} tiles</span> available
               </p>
               <div className="flex flex-wrap gap-2">
               <Link
-                href="/products"
+                href="/tiles"
                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-200 text-gray-800 text-sm hover:bg-gray-300 transition-colors border border-gray-300"
                 title="Remove filter"
               >
@@ -107,18 +107,18 @@ export default async function CategoryPage({
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {tiles.map((tile) => (
+                <TileCard key={tile.id} tile={tile} />
               ))}
             </div>
-            {products.length === 0 && (
+            {tiles.length === 0 && (
               <p className="text-center text-gray-500 py-12">
-                No products found for this category.
+                No tiles found for this category.
               </p>
             )}
-            {allProducts.length > PER_PAGE && (
+            {allTiles.length > PER_PAGE && (
               <Pagination
-                totalItems={allProducts.length}
+                totalItems={allTiles.length}
                 currentPage={currentPage}
                 baseUrl={`/${slug}`}
                 searchParams={filters}

@@ -7,7 +7,7 @@ import { CATEGORIES, getCategoryPageUrl } from "@/data/categories";
 
 const Header = () => {
   const pathname = usePathname();
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isTilesOpen, setIsTilesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -20,7 +20,7 @@ const Header = () => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setIsProductsOpen(false);
+        setIsTilesOpen(false);
       }
     };
 
@@ -78,16 +78,16 @@ const Header = () => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-12 flex-1 justify-center">
-            {/* Products with Dropdown */}
+            {/* Tiles with Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => setIsProductsOpen(!isProductsOpen)}
+                onClick={() => setIsTilesOpen(!isTilesOpen)}
                 className="flex items-center space-x-1 hover:opacity-80 transition-opacity"
               >
-                <span className={navLinkClasses}>Products</span>
+                <span className={navLinkClasses}>Tiles</span>
                 <svg
                   className={`w-4 h-4 transition-transform ${
-                    isProductsOpen ? "rotate-180" : ""
+                    isTilesOpen ? "rotate-180" : ""
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -103,24 +103,24 @@ const Header = () => {
               </button>
 
               {/* Dropdown Menu */}
-              {isProductsOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-xl py-2 z-50">
+              {isTilesOpen && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white text-gray-800 rounded-none shadow-xl py-2 z-50">
                   {CATEGORIES.map((category) => (
                     <Link
                       key={category.slug}
                       href={getCategoryPageUrl(category.slug)}
                       className="block px-4 py-2 hover:bg-blue-50 transition-colors"
-                      onClick={() => setIsProductsOpen(false)}
+                      onClick={() => setIsTilesOpen(false)}
                     >
                       {category.title}
                     </Link>
                   ))}
                   <Link
-                    href="/products"
+                    href="/tiles"
                     className="block px-4 py-2 hover:bg-blue-50 transition-colors border-t border-gray-200 mt-1"
-                    onClick={() => setIsProductsOpen(false)}
+                    onClick={() => setIsTilesOpen(false)}
                   >
-                    View All Products
+                    View All Tiles
                   </Link>
                 </div>
               )}

@@ -1,14 +1,14 @@
 "use client";
 
 import { useRef } from "react";
-import TileCard from "@/components/TileCard";
-import type { Tile } from "@/data/tiles";
+import AdhesiveCard from "@/components/AdhesiveCard";
+import type { Adhesive } from "@/data/adhesives";
 
-interface ExploreSimilarTilesProps {
-  tiles: Tile[];
+interface ExploreSimilarAdhesivesProps {
+  adhesives: Adhesive[];
 }
 
-export default function ExploreSimilarTiles({ tiles }: ExploreSimilarTilesProps) {
+export default function ExploreSimilarAdhesives({ adhesives }: ExploreSimilarAdhesivesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: "left" | "right") => {
@@ -20,18 +20,18 @@ export default function ExploreSimilarTiles({ tiles }: ExploreSimilarTilesProps)
     });
   };
 
-  if (tiles.length === 0) return null;
+  if (adhesives.length === 0) return null;
 
   return (
     <section className="w-full px-4 md:px-6 lg:px-8 mt-14 md:mt-20">
       <div className="flex items-center justify-between gap-4 mb-4">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-          Explore Similar Tiles
+          Explore Similar Adhesives
         </h2>
         <div className="flex gap-2 shrink-0">
           <button
             type="button"
-            aria-label="Previous tiles"
+            aria-label="Previous adhesive"
             onClick={() => scroll("left")}
             className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
           >
@@ -41,7 +41,7 @@ export default function ExploreSimilarTiles({ tiles }: ExploreSimilarTilesProps)
           </button>
           <button
             type="button"
-            aria-label="Next tiles"
+            aria-label="Next adhesive"
             onClick={() => scroll("right")}
             className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
           >
@@ -55,9 +55,9 @@ export default function ExploreSimilarTiles({ tiles }: ExploreSimilarTilesProps)
         ref={scrollRef}
         className="flex gap-4 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {tiles.map((t) => (
-          <div key={t.id} className="snap-start shrink-0 w-[280px] sm:w-[300px]">
-            <TileCard tile={t} />
+        {adhesives.map((a) => (
+          <div key={a.id} className="snap-start shrink-0 w-[280px] sm:w-[300px]">
+            <AdhesiveCard adhesive={a} />
           </div>
         ))}
       </div>

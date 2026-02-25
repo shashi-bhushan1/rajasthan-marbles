@@ -1,4 +1,4 @@
-export interface Product {
+export interface Tile {
   id: string;
   name: string;
   type: string;
@@ -12,8 +12,8 @@ export interface Product {
   };
 }
 
-// Mock product data - replace with real data or API later
-export const PRODUCTS: Product[] = [
+// Mock tile data - replace with real data or API later
+export const TILES: Tile[] = [
   {
     id: "1",
     name: "Bianco Onduluto",
@@ -104,7 +104,7 @@ export const PRODUCTS: Product[] = [
     categorySlug: "commercial-spaces",
     filters: { size: ["60x60 cm"], color: ["grey"], finish: ["matt"] },
   },
-  // Extra dummy products to demonstrate pagination (12 per page)
+  // Extra dummy tiles to demonstrate pagination (12 per page)
   {
     id: "11",
     name: "Carrara White",
@@ -306,24 +306,21 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
-export function getProductsByCategory(categorySlug: string): Product[] {
-  return PRODUCTS.filter((p) => p.categorySlug === categorySlug);
+export function getTilesByCategory(categorySlug: string): Tile[] {
+  return TILES.filter((p) => p.categorySlug === categorySlug);
 }
 
-export function getSimilarProducts(
-  product: Product,
-  limit: number = 8
-): Product[] {
-  return PRODUCTS.filter(
-    (p) => p.categorySlug === product.categorySlug && p.id !== product.id
+export function getSimilarTiles(tile: Tile, limit: number = 8): Tile[] {
+  return TILES.filter(
+    (p) => p.categorySlug === tile.categorySlug && p.id !== tile.id
   ).slice(0, limit);
 }
 
-export function getProductsByCategories(categorySlugs: string[]): Product[] {
-  if (categorySlugs.length === 0) return PRODUCTS;
-  return PRODUCTS.filter((p) => categorySlugs.includes(p.categorySlug));
+export function getTilesByCategories(categorySlugs: string[]): Tile[] {
+  if (categorySlugs.length === 0) return TILES;
+  return TILES.filter((p) => categorySlugs.includes(p.categorySlug));
 }
 
-export function getAllProducts(): Product[] {
-  return PRODUCTS;
+export function getAllTiles(): Tile[] {
+  return TILES;
 }

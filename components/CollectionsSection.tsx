@@ -93,7 +93,7 @@ const CollectionsSection = () => {
         {/* Discover More Button */}
         <div className="text-center mt-12">
           <Link
-            href="/products"
+            href="/tiles"
             className="inline-flex items-center space-x-3 hover:opacity-80 transition-opacity"
           >
             <span className="text-[#17458A] font-semibold text-base md:text-lg tracking-wide uppercase">

@@ -25,7 +25,7 @@ const HeroSection = () => {
       title: "",
       description: "",
       ctaText: "",
-      ctaLink: "/products",
+      ctaLink: "/tiles",
     },
     {
       id: 2,
@@ -34,7 +34,7 @@ const HeroSection = () => {
       description:
         "Set the tone of your space with tiles that go beyond function.",
       ctaText: "EXPLORE RANGE",
-      ctaLink: "/products",
+      ctaLink: "/tiles",
     },
     {
       id: 3,
@@ -43,7 +43,7 @@ const HeroSection = () => {
       description:
         "Elevate your living room with tiles that blend timeless elegance and enduring strength.",
       ctaText: "EXPLORE RANGE",
-      ctaLink: "/products",
+      ctaLink: "/tiles",
     },
     {
       id: 4,
@@ -52,7 +52,7 @@ const HeroSection = () => {
       description:
         "Elevate your bathroom with tiles that blend elegance and serenity. The timeless collection is designed to create a calming environment.",
       ctaText: "EXPLORE RANGE",
-      ctaLink: "/products",
+      ctaLink: "/tiles",
     },
     {
       id: 5,
@@ -61,7 +61,7 @@ const HeroSection = () => {
       description:
         "Built to endure, designed to impress—our outdoor tiles bring lasting beauty to every season.",
       ctaText: "EXPLORE RANGE",
-      ctaLink: "/products",
+      ctaLink: "/tiles",
     },
   ];
 

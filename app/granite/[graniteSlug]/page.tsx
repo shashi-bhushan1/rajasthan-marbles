@@ -4,7 +4,7 @@ import {
   getGraniteBySlug,
   getSimilarGranites,
 } from "@/data/granite";
-import ProductImageWithModal from "@/components/ProductImageWithModal";
+import ImageWithModal from "@/components/ImageWithModal";
 import ExploreSimilarGranites from "@/components/ExploreSimilarGranites";
 import ShareButton from "@/components/ShareButton";
 
@@ -30,9 +30,9 @@ export default async function GraniteDetailPage({
       <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-0 mb-8 md:mb-10">
         <div className="md:pl-4 lg:pl-6 pr-4 md:pr-0 flex flex-col">
           <div className="relative w-full max-md:aspect-square md:h-[55vh] md:max-h-[520px]">
-            <ProductImageWithModal
+            <ImageWithModal
               images={[granite.image]}
-              productName={granite.name}
+              itemName={granite.name}
               className="max-md:!block md:!aspect-auto md:!h-full md:!w-full md:!rounded-none"
             />
           </div>

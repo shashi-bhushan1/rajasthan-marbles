@@ -143,10 +143,10 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Middle Section - Products */}
+          {/* Middle Section - Tiles & more */}
           <div className="px-4 md:px-12 lg:px-16">
             <h3 className="text-lg font-semibold mb-4 uppercase tracking-wide">
-              Products
+              Tiles
             </h3>
             <ul className="space-y-2">
               {productCategories.map((category) => (

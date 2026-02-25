@@ -1,36 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import ProductImageCarousel from "@/components/ProductImageCarousel";
-import ProductImageModal from "@/components/ProductImageModal";
+import ImageCarousel from "@/components/ImageCarousel";
+import ImageModal from "@/components/ImageModal";
 
-interface ProductImageWithModalProps {
+interface ImageWithModalProps {
   images: string[];
-  productName: string;
+  /** Display name for alt text (e.g. tile name, granite name) */
+  itemName: string;
   className?: string;
 }
 
-export default function ProductImageWithModal({
+export default function ImageWithModal({
   images,
-  productName,
+  itemName,
   className = "",
-}: ProductImageWithModalProps) {
+}: ImageWithModalProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
     <>
-      <ProductImageCarousel
+      <ImageCarousel
         images={images}
-        productName={productName}
+        itemName={itemName}
         className={className}
         value={currentIndex}
         onChange={setCurrentIndex}
         onImageClick={() => setModalOpen(true)}
       />
-      <ProductImageModal
+      <ImageModal
         images={images}
-        productName={productName}
+        itemName={itemName}
         initialIndex={currentIndex}
         isOpen={modalOpen}
         onClose={(index) => {

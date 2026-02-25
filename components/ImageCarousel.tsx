@@ -3,9 +3,10 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 
-interface ProductImageCarouselProps {
+interface ImageCarouselProps {
   images: string[];
-  productName: string;
+  /** Display name for alt text (e.g. tile name, granite name) */
+  itemName: string;
   /** Use when parent has explicit height (e.g. md:h-[55vh]) so image fills the box */
   className?: string;
   /** Controlled current index (use with onChange) */
@@ -16,14 +17,14 @@ interface ProductImageCarouselProps {
   onImageClick?: () => void;
 }
 
-export default function ProductImageCarousel({
+export default function ImageCarousel({
   images,
-  productName,
+  itemName,
   className = "",
   value,
   onChange,
   onImageClick,
-}: ProductImageCarouselProps) {
+}: ImageCarouselProps) {
   const [internalIndex, setInternalIndex] = useState(0);
   const isControlled = value !== undefined && onChange;
   const currentIndex = isControlled ? value : internalIndex;
@@ -48,7 +49,7 @@ export default function ProductImageCarousel({
   const imageContent = (
     <Image
       src={images[currentIndex]}
-      alt={`${productName} - ${currentIndex + 1}`}
+      alt={`${itemName} - ${currentIndex + 1}`}
       fill
       className="object-cover"
       priority
